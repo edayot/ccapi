@@ -26,7 +26,7 @@ And it's done.
 
 ### Use
 
-Warning !
+Warning : I have a Canon EOS 250D and some parts of the API are just unvailabe for and I can't develop them.
 
 Don't forget that this reposities is based on a http web api.
 
@@ -47,5 +47,5 @@ and post/put method post only the ``value``, and to not had a error this value m
 
 Some of them are more complicated and refering to the documentation is neccesary to understand what the ccapi does.
 
-The reposities also had some usefull pre-build method like ``Camera.functions.datetime.sync()`` to sync datetime or ``Camera.contents.get_chunked(path)`` to get directly the json object of all image in the folder and not just paged ones
+The reposities also had some usefull build-in function like ``Camera.functions.datetime.sync()`` to sync datetime or ``Camera.contents.get_chunked(path)`` to get directly the json object of all image in the folder and not just paged ones
 
