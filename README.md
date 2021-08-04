@@ -37,13 +37,13 @@ Most of methods had a get() and post or put object. Basically function.get() wil
 ```
 {
     "value":"100",
-    "abilities":[
+    "ability":[
         "100","200","300"
     ]
 }
 ```
 
-and post/put method post only the ``value``, and to not had a error this value must be in ``abilites``.
+and post/put method post only the ``value``, and to not had a error this value must be in ``ability``.
 
 Some of them are more complicated and refering to the documentation is neccesary to understand what the ccapi does.
 
