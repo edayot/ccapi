@@ -6,8 +6,6 @@ from PIL import Image
 from io import BytesIO
 
 
-ip="192.168.1.9"
-port=8080
 
 
 
@@ -182,7 +180,74 @@ class Camera:
         class settings:
             def get():
                 return requests.get(Camera.url+"/ver100/shooting/settings").json()
+            class shootingmodedial:
+                def get():
+                    return requests.get(Camera.url+"/ver100/shooting/settings/shootingmodedial").json()
+            class afoperation:
+                def get():
+                    return requests.get(Camera.url+"/ver100/shooting/settings/afoperation").json()
+
+            class __single__:
+                def __init__(self,url):
+                    self.url=url
+                def get(self):
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                def put(self,value):
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":value}).json()
+                def change(self,n):
+                    """ 
+                    increase/decrease value by n in ability
+                    """
+                    r=self.get()
+                    return self.put(r["ability"][(r["ability"].index(r["value"])+n)%len(r["ability"])])
+
+            class __double__:
+                def __init__(self,url,var1,var2):
+                    self.url=url
+                    self.var1=var1
+                    self.var2=var2
+                def get(self):
+                        return requests.get(Camera.url+"/ver100/shooting/settings/stillimagequality").json()
+                def put(self,var1,var2):
+                    return requests.put(Camera.url+"/ver100/shooting/settings/stillimagequality",json={"value":{self.var1:var1,self.var2:var2}}).json()
+                def change(self,n,m):
+                    """ 
+                    increase/decrease value by n,m in ability (the two are changed)
+                    """
+                    
+                    r=self.get()
+                    var1=r["ability"][self.var1][(r["ability"][self.var1].index(r["value"][self.var1])+n)%len(r["ability"][self.var1])]
+                    var2=r["ability"][self.var2][(r["ability"][self.var2].index(r["value"][self.var2])+m)%len(r["ability"][self.var2])]
+                    return self.put(var1,var2)
             
+
+            av=__single__("/av")
+            tv=__single__("/tv")
+            iso=__single__("/iso")
+            exposure=__single__("/exposure")
+            wb=__single__("/wb")
+            afmethod=__single__("/afmethod")
+            stillimagequality=__double__("/stillimagequality","raw","jpeg")
+            flash=__single__("/flash")
+            metering=__single__("/metering")
+            drive=__single__("/drive")
+            aeb=__single__("/aeb")
+            wbshift=__double__("/wbshift")
+            wbbracket=__single__("/wbbracket")
+            colorspace=__single__("/colorspace")
+            picturestyle=__single__("/picturestyle")
+
+            moviequality=__single__("/moviequality")
+            
+
+
+
+
+
+        
+            
+            
+
         class liveview:
             class rtp:
                 def get():
@@ -197,7 +262,7 @@ class Camera:
                 
                 
                 
-    
+ip="192.168.1.9"
+port=8080
+c=Camera(ip,port) 
         
-        
-c=Camera(ip,port)
