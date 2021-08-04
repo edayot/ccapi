@@ -200,6 +200,24 @@ class Camera:
                     """
                     r=self.get()
                     return self.put(r["ability"][(r["ability"].index(r["value"])+n)%len(r["ability"])])
+            class __single_step__:
+                def __init__(self,url):
+                    self.url=url
+                def get(self):
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                def put(self,value):
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":value}).json()
+                def change(self,n):
+                    """ 
+                    increase/decrease value by n*step in ability 
+                    """
+                    r=self.get()
+                    step=r["ability"]["step"]
+                    min_=r["ability"]["min"]
+                    max_=r["ability"]["max"]
+                    value=(r["value"]+n*step)%(max_-min_)-min_
+                    return self.put(value)
+            
 
             class __double__:
                 def __init__(self,url,var1,var2):
@@ -207,9 +225,9 @@ class Camera:
                     self.var1=var1
                     self.var2=var2
                 def get(self):
-                        return requests.get(Camera.url+"/ver100/shooting/settings/stillimagequality").json()
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
                 def put(self,var1,var2):
-                    return requests.put(Camera.url+"/ver100/shooting/settings/stillimagequality",json={"value":{self.var1:var1,self.var2:var2}}).json()
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":{self.var1:var1,self.var2:var2}}).json()
                 def change(self,n,m):
                     """ 
                     increase/decrease value by n,m in ability (the two are changed)
@@ -219,6 +237,138 @@ class Camera:
                     var1=r["ability"][self.var1][(r["ability"][self.var1].index(r["value"][self.var1])+n)%len(r["ability"][self.var1])]
                     var2=r["ability"][self.var2][(r["ability"][self.var2].index(r["value"][self.var2])+m)%len(r["ability"][self.var2])]
                     return self.put(var1,var2)
+            class __double_step__:
+                def __init__(self,url,var1,var2):
+                    self.url=url
+                    self.var1=var1
+                    self.var2=var2
+                def get(self):
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                def put(self,var1,var2):
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":{self.var1:var1,self.var2:var2}}).json()
+                def change(self,n,m):
+                    """ 
+                    increase/decrease value by n*step,m*step in ability (the two are changed)
+                    """
+                    r=self.get()
+                    step1=r["ability"][self.var1]["step"]
+                    step2=r["ability"][self.var2]["step"]
+
+                    min1=r["ability"][self.var1]["min"]
+                    min2=r["ability"][self.var2]["min"]
+
+                    max1=r["ability"][self.var1]["max"]
+                    max2=r["ability"][self.var2]["max"]
+
+                    var1=(r["value"][self.var1]+n*step1)%(max1-min1)-min1
+                    var2=(r["value"][self.var2]+m*step2)%(max2-min2)-min2
+
+
+                    return self.put(var1,var2)
+
+            class __sextuple_step__:
+                def __init__(self,url,var1,var2,var3,var4,var5,var6):
+                    self.url=url
+                    self.var1=var1
+                    self.var2=var2
+                    self.var3=var3
+                    self.var4=var4
+                    self.var5=var5
+                    self.var6=var6
+                def get(self):
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                def put(self,var1,var2,var3,var4,var5,var6):
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":{self.var1:var1,self.var2:var2,self.var3:var3,self.var4:var4,self.var5:var5,self.var6:var6}}).json()
+                def delete(self):
+                    return requests.delete(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                def change(self,n,m,o,p,q,a):
+                    """ 
+                    increase/decrease value by n*step,m*step in ability (the two are changed)
+                    """
+                    r=self.get()
+                    step1=r["ability"][self.var1]["step"]
+                    step2=r["ability"][self.var2]["step"]
+                    step3=r["ability"][self.var3]["step"]
+                    step4=r["ability"][self.var4]["step"]
+                    step5=r["ability"][self.var5]["step"]
+                    step6=r["ability"][self.var6]["step"]
+                    
+
+                    min1=r["ability"][self.var1]["min"]
+                    min2=r["ability"][self.var2]["min"]
+                    min3=r["ability"][self.var3]["min"]
+                    min4=r["ability"][self.var4]["min"]
+                    min5=r["ability"][self.var5]["min"]
+                    min6=r["ability"][self.var6]["min"]
+
+                    max1=r["ability"][self.var1]["max"]
+                    max2=r["ability"][self.var2]["max"]
+                    max3=r["ability"][self.var3]["max"]
+                    max4=r["ability"][self.var4]["max"]
+                    max5=r["ability"][self.var5]["max"]
+                    max6=r["ability"][self.var6]["max"]
+
+                    var1=(r["value"][self.var1]+n*step1-min1)%(max1-min1)+min1
+                    var2=(r["value"][self.var2]+m*step2-min2)%(max2-min2)+min2
+                    var3=(r["value"][self.var3]+o*step3-min3)%(max3-min3)+min3
+                    var4=(r["value"][self.var4]+p*step4-min4)%(max4-min4)+min4
+                    var5=(r["value"][self.var5]+q*step5-min5)%(max5-min5)+min5
+                    var6=(r["value"][self.var6]+a*step6-min6)%(max6-min6)+min6
+
+                    return self.put(var1,var2,var3,var4,var5,var6)
+            class __septuple__:
+                def __init__(self,url,var1,var2,var3,var4,var5,var6):
+                    self.url=url
+                    self.var1=var1
+                    self.var2=var2
+                    self.var3=var3
+                    self.var4=var4
+                    self.var5=var5
+                    self.var6=var6
+                def get(self):
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                def put(self,basepicturestyle,var1,var2,var3,var4,var5,var6):
+                    j={"value":{"basepicturestyle":basepicturestyle,self.var1:var1,self.var2:var2,self.var3:var3,self.var4:var4,self.var5:var5,self.var6:var6}}
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json=j).json()
+                def delete(self):
+                    return requests.delete(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                def change(self,n,m,o,p,q,a):
+                    """ 
+                    increase/decrease value by n*step,m*step in ability (the two are changed)
+                    """
+                    r=self.get()
+                    step1=r["ability"][self.var1]["step"]
+                    step2=r["ability"][self.var2]["step"]
+                    step3=r["ability"][self.var3]["step"]
+                    step4=r["ability"][self.var4]["step"]
+                    step5=r["ability"][self.var5]["step"]
+                    step6=r["ability"][self.var6]["step"]
+                    
+
+                    min1=r["ability"][self.var1]["min"]
+                    min2=r["ability"][self.var2]["min"]
+                    min3=r["ability"][self.var3]["min"]
+                    min4=r["ability"][self.var4]["min"]
+                    min5=r["ability"][self.var5]["min"]
+                    min6=r["ability"][self.var6]["min"]
+
+                    max1=r["ability"][self.var1]["max"]
+                    max2=r["ability"][self.var2]["max"]
+                    max3=r["ability"][self.var3]["max"]
+                    max4=r["ability"][self.var4]["max"]
+                    max5=r["ability"][self.var5]["max"]
+                    max6=r["ability"][self.var6]["max"]
+
+                    var1=(r["value"][self.var1]+n*step1-min1)%(max1-min1)+min1
+                    var2=(r["value"][self.var2]+m*step2-min2)%(max2-min2)+min2
+                    var3=(r["value"][self.var3]+o*step3-min3)%(max3-min3)+min3
+                    var4=(r["value"][self.var4]+p*step4-min4)%(max4-min4)+min4
+                    var5=(r["value"][self.var5]+q*step5-min5)%(max5-min5)+min5
+                    var6=(r["value"][self.var6]+a*step6-min6)%(max6-min6)+min6
+
+                    basepicturestyle=r["value"]["basepicturestyle"]
+
+                    return self.put(basepicturestyle,var1,var2,var3,var4,var5,var6)
             
 
             av=__single__("/av")
@@ -232,13 +382,30 @@ class Camera:
             metering=__single__("/metering")
             drive=__single__("/drive")
             aeb=__single__("/aeb")
-            wbshift=__double__("/wbshift")
+            wbshift=__double_step__("/wbshift","ba","mg")
             wbbracket=__single__("/wbbracket")
             colorspace=__single__("/colorspace")
             picturestyle=__single__("/picturestyle")
 
+            for t in ["auto","standard","portrait","landscape","finedetail","neutral","faithful","monochrome"]:
+                exec("picturestyle."+t+'=__sextuple_step__("/picturestyle/'+t+'","sharpness_strength","sharpness_fineness","sharpness_threshold","contrast","saturation","colortone")')
+
+            for t in ["userdef1","userdef2","userdef3"]:
+                exec("picturestyle."+t+'=__septuple__("/picturestyle/'+t+'","sharpness_strength","sharpness_fineness","sharpness_threshold","contrast","saturation","colortone")')
+                exec("picturestyle."+t+'.basepicturestyle=__single__("/picturestyle/'+t+'/basepicturestyle")')
+
             moviequality=__single__("/moviequality")
+            soundrecording=__single__("/soundrecording")
             
+            soundrecording.level=__single_step__("/soundrecording/level")
+            soundrecording.windfilter=__single__("/soundrecording/windfilter")
+            soundrecording.attenuator=__single__("/soundrecording/attenuator")
+
+        class information:
+            class recordable:
+                def get():
+                    return requests.get(Camera.url+"/ver100/shooting/information/recordable").json()
+
 
 
 
@@ -249,6 +416,18 @@ class Camera:
             
 
         class liveview:
+            def get():
+                return {"ability":{"liveviewsize":["off","small","medium"],"cameradisplay":["on","off","keep"]}}
+            def post(liveviewsize,cameradisplay):
+                return requests.post(Camera.url+"/ver100/shooting/liveview",json={"liveviewsize":liveviewsize,"cameradisplay":cameradisplay}).json()
+
+            class flip:
+                def get():
+                    return requests.get(Camera.url+"/ver100/shooting/liveview/flip").content
+            class flipdetail:
+                def get(arg=""):
+                    return requests.get(Camera.url+"/ver100/shooting/liveview/flipdetail"+arg)
+
             class rtp:
                 def get():
                     return requests.get(Camera.url+"/ver100/shooting/liveview/rtp").json()
