@@ -420,14 +420,32 @@ class Camera:
                 return {"ability":{"liveviewsize":["off","small","medium"],"cameradisplay":["on","off","keep"]}}
             def post(liveviewsize,cameradisplay):
                 return requests.post(Camera.url+"/ver100/shooting/liveview",json={"liveviewsize":liveviewsize,"cameradisplay":cameradisplay}).json()
-
             class flip:
                 def get():
                     return requests.get(Camera.url+"/ver100/shooting/liveview/flip").content
+                def save(path="ouput.jfif"):
+                    "same as get method but save the image as path"
+                    with open(path,"wb") as f:
+                        f.write(requests.get(Camera.url+"/ver100/shooting/liveview/flip").content)
             class flipdetail:
-                def get(arg=""):
-                    return requests.get(Camera.url+"/ver100/shooting/liveview/flipdetail"+arg)
-
+                def get(kind="info"):
+                    r=requests.get(Camera.url+"/ver100/shooting/liveview/flipdetail/?kind="+kind)
+                    if kind=="info":
+                        return int.from_bytes(r.content[3:7],"big"),json.loads(r.text[7:len(r.text)-2])
+                    elif kind=="image":
+                        return int.from_bytes(r.content[3:7],"big"),r.content[7:-2]
+                    elif kind=="both":
+                        i=r.content.index(b'\xff\x00\x00')
+                        return [(int.from_bytes(r.content[3:7],"big"),json.loads(r.text[7:i-2])),(int.from_bytes(r.content[i+3:i+7],"big"),r.content[i+7:-2])]
+                    else:
+                        return r
+            class scroll:
+                def get():
+                    return requests.get(Camera.url+"/ver100/shooting/liveview/scroll").content
+                def delete():
+                    return requests.delete(Camera.url+"/ver100/shooting/liveview/scroll").content
+                    
+                    
             class rtp:
                 def get():
                     return requests.get(Camera.url+"/ver100/shooting/liveview/rtp").json()

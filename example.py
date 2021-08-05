@@ -15,7 +15,4 @@ def wait(seconds):
         pass
 
 def take_liveview_picture():
-    c.shooting.liveview.post("medium","on")
-    r=c.shooting.liveview.flip.get()
-    with open("ouput.jfif","wb") as f:
-        f.write(r.content)
+    c.shooting.liveview.flip.save()
