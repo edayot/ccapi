@@ -16,68 +16,68 @@ class Camera:
         Camera.rtpurl="rtp://"+ip+":"+str(port)+"/media"
 
     def get(self):
-        return requests.get(Camera.url).json()
+        return requests.get(Camera.url)
     class deviceinformation:
         def get():
-            return requests.get(Camera.url+"/ver100/deviceinformation").json()
+            return requests.get(Camera.url+"/ver100/deviceinformation")
     
     
     class devicestatus:
         class battery:
             def get():
-                return requests.get(Camera.url+"/ver100/devicestatus/battery").json()
+                return requests.get(Camera.url+"/ver100/devicestatus/battery")
         class storage:
             def get():
-                return requests.get(Camera.url+"/ver100/devicestatus/storage").json()
+                return requests.get(Camera.url+"/ver100/devicestatus/storage")
         class lens:
             def get():
-                return requests.get(Camera.url+"/ver100/devicestatus/lens").json()
+                return requests.get(Camera.url+"/ver100/devicestatus/lens")
         class temperature:
             def get():
-                return requests.get(Camera.url+"/ver100/devicestatus/battery").json()
+                return requests.get(Camera.url+"/ver100/devicestatus/battery")
     
     class functions:
         class registeredname:
             class copyright:
                 def get():
-                    return requests.get(Camera.url+"/ver100/functions/registeredname/copyright").json()
+                    return requests.get(Camera.url+"/ver100/functions/registeredname/copyright")
                 def put(copyright):
-                    return requests.put(Camera.url+"/ver100/functions/registeredname/copyright",json={"copyright":copyright}).json()
+                    return requests.put(Camera.url+"/ver100/functions/registeredname/copyright",json={"copyright":copyright})
                 def delete():
-                    return requests.delete(Camera.url+"/ver100/functions/registeredname/copyright").json()
+                    return requests.delete(Camera.url+"/ver100/functions/registeredname/copyright")
             class author:
                 def get():
-                    return requests.get(Camera.url+"/ver100/functions/registeredname/author").json()
+                    return requests.get(Camera.url+"/ver100/functions/registeredname/author")
                 def put(author):
-                    return requests.put(Camera.url+"/ver100/functions/registeredname/author",json={"author":author}).json()
+                    return requests.put(Camera.url+"/ver100/functions/registeredname/author",json={"author":author})
                 def delete():
-                    return requests.delete(Camera.url+"/ver100/functions/registeredname/author").json()
+                    return requests.delete(Camera.url+"/ver100/functions/registeredname/author")
             class ownername:
                 def get():
-                    return requests.get(Camera.url+"/ver100/functions/registeredname/ownername").json()
+                    return requests.get(Camera.url+"/ver100/functions/registeredname/ownername")
                 def put(ownername):
-                    return requests.put(Camera.url+"/ver100/functions/registeredname/ownername",json={"ownername":ownername}).json()
+                    return requests.put(Camera.url+"/ver100/functions/registeredname/ownername",json={"ownername":ownername})
                 def delete():
-                    return requests.delete(Camera.url+"/ver100/functions/registeredname/ownername").json()
+                    return requests.delete(Camera.url+"/ver100/functions/registeredname/ownername")
             class nickname:
                 def get():
-                    return requests.get(Camera.url+"/ver100/functions/registeredname/nickname").json()
+                    return requests.get(Camera.url+"/ver100/functions/registeredname/nickname")
                 def put(nickname):
-                    return requests.put(Camera.url+"/ver100/functions/registeredname/nickname",json={"nickname":nickname}).json()
+                    return requests.put(Camera.url+"/ver100/functions/registeredname/nickname",json={"nickname":nickname})
                 def delete():
-                    return requests.delete(Camera.url+"/ver100/functions/registeredname/nickname").json()
+                    return requests.delete(Camera.url+"/ver100/functions/registeredname/nickname")
             class copyright:
                 def get():
-                    return requests.get(Camera.url+"/ver100/functions/registeredname/copyright").json()
+                    return requests.get(Camera.url+"/ver100/functions/registeredname/copyright")
                 def put(copyright):
-                    return requests.put(Camera.url+"/ver100/functions/registeredname/copyright",json={"copyright":copyright}).json()
+                    return requests.put(Camera.url+"/ver100/functions/registeredname/copyright",json={"copyright":copyright})
                 def delete():
-                    return requests.delete(Camera.url+"/ver100/functions/registeredname/copyright").json()
+                    return requests.delete(Camera.url+"/ver100/functions/registeredname/copyright")
         class datetime:
             def get():
-                return requests.get(Camera.url+"/ver100/functions/datetime").json()
+                return requests.get(Camera.url+"/ver100/functions/datetime")
             def put(datetime,dst):
-                return requests.put(Camera.url+"/ver100/functions/datetime",json={"datetime":datetime,"dst":dst}).json()
+                return requests.put(Camera.url+"/ver100/functions/datetime",json={"datetime":datetime,"dst":dst})
             def sync():
                 Camera.functions.datetime.put(formatdate(timeval=None, localtime=True, usegmt=False),False)
         class cardformat:
@@ -85,49 +85,49 @@ class Camera:
                 r=input("Please confirm by typing yes : ")
                 if r=="yes":
                     print("Formating")
-                    return requests.post(Camera.url+"/ver100/functions/cardformat",json={"name":name}).json()
+                    return requests.post(Camera.url+"/ver100/functions/cardformat",json={"name":name})
                 else:
                     return None
         class beep:
             def get():
-                return requests.get(Camera.url+"/ver100/functions/beep").json()
+                return requests.get(Camera.url+"/ver100/functions/beep")
             def put(value):
-                return requests.put(Camera.url+"/ver100/functions/beep",json={"value":value}).json()
+                return requests.put(Camera.url+"/ver100/functions/beep",json={"value":value})
         class autopoweroff:
             def get():
-                return requests.get(Camera.url+"/ver100/functions/autopoweroff").json()
+                return requests.get(Camera.url+"/ver100/functions/autopoweroff")
             def put(value):
-                return requests.put(Camera.url+"/ver100/functions/autopoweroff",json={"value":value}).json()
+                return requests.put(Camera.url+"/ver100/functions/autopoweroff",json={"value":value})
         class wificonnection:
             def post(value):
-                return requests.put(Camera.url+"/ver100/functions/wificonnection",json={"value":value}).json()
+                return requests.put(Camera.url+"/ver100/functions/wificonnection",json={"value":value})
         class wifisetting:
             def get():
-                return requests.get(Camera.url+"/ver100/functions/wifisetting").json()
+                return requests.get(Camera.url+"/ver100/functions/wifisetting")
             class set1:
                 def get():
-                    return requests.get(Camera.url+"/ver100/functions/wifisetting/set1").json()
+                    return requests.get(Camera.url+"/ver100/functions/wifisetting/set1")
                 def put(body):
                     """
                     Put a json body like the .get() method
                     """
-                    return requests.put(Camera.url+"/ver100/functions/wifisetting/set1",json=body).json()
+                    return requests.put(Camera.url+"/ver100/functions/wifisetting/set1",json=body)
             class set2:
                 def get():
-                    return requests.get(Camera.url+"/ver100/functions/wifisetting/set2").json()
+                    return requests.get(Camera.url+"/ver100/functions/wifisetting/set2")
                 def put(body):
                     """
                     Put a json body like the .get() method
                     """
-                    return requests.put(Camera.url+"/ver100/functions/wifisetting/set2",json=body).json()
+                    return requests.put(Camera.url+"/ver100/functions/wifisetting/set2",json=body)
             class set3:
                 def get():
-                    return requests.get(Camera.url+"/ver100/functions/wifisetting/set3").json()
+                    return requests.get(Camera.url+"/ver100/functions/wifisetting/set3")
                 def put(body):
                     """
                     Put a json body like the .get() method
                     """
-                    return requests.put(Camera.url+"/ver100/functions/wifisetting/set3",json=body).json()
+                    return requests.put(Camera.url+"/ver100/functions/wifisetting/set3",json=body)
     class contents:
         def display(path):
             r=Camera.contents.get_file(path)
@@ -137,7 +137,7 @@ class Camera:
             '''
             path is the path of a directory: "/sd/100CANON"
             '''
-            return requests.get(Camera.url+"/ver100/contents"+path).json()
+            return requests.get(Camera.url+"/ver100/contents"+path)
         def get_file(path):
             '''
             path is the path of a file: "/sd/100CANON/IMG_0000.JPG"
@@ -159,59 +159,59 @@ class Camera:
         class control:
             class shutterbutton():
                 def post(af):
-                    return requests.post(Camera.url+"/ver100/shooting/control/shutterbutton",json={"af":af}).json()
+                    return requests.post(Camera.url+"/ver100/shooting/control/shutterbutton",json={"af":af})
                 class manual:
                     def post(action,af):
-                        return requests.post(Camera.url+"/ver100/shooting/control/shutterbutton/manual",json={"action":action,"af":af}).json()
+                        return requests.post(Camera.url+"/ver100/shooting/control/shutterbutton/manual",json={"action":action,"af":af})
             class moviemode:
                 def get():
-                    return requests.get(Camera.url+"/ver100/shooting/control/moviemode").json()
+                    return requests.get(Camera.url+"/ver100/shooting/control/moviemode")
                 def post(status):
-                    return requests.post(Camera.url+"/ver100/shooting/control/moviemode",json={"status":status}).json()
+                    return requests.post(Camera.url+"/ver100/shooting/control/moviemode",json={"status":status})
             class recbutton:
                 def post(action):
-                    return requests.post(Camera.url+"/ver100/shooting/control/moviemode",json={"action":action}).json()
+                    return requests.post(Camera.url+"/ver100/shooting/control/moviemode",json={"action":action})
             class drivefocus:
                 def post(value):
-                    return requests.post(Camera.url+"/ver100/shooting/control/drivefocus",json={"value":value}).json()
+                    return requests.post(Camera.url+"/ver100/shooting/control/drivefocus",json={"value":value})
             class af:
                 def post(action):
-                    return requests.post(Camera.url+"/ver100/shooting/control/af",json={"action":action}).json()
+                    return requests.post(Camera.url+"/ver100/shooting/control/af",json={"action":action})
         class settings:
             def get():
-                return requests.get(Camera.url+"/ver100/shooting/settings").json()
+                return requests.get(Camera.url+"/ver100/shooting/settings")
             class shootingmodedial:
                 def get():
-                    return requests.get(Camera.url+"/ver100/shooting/settings/shootingmodedial").json()
+                    return requests.get(Camera.url+"/ver100/shooting/settings/shootingmodedial")
             class afoperation:
                 def get():
-                    return requests.get(Camera.url+"/ver100/shooting/settings/afoperation").json()
+                    return requests.get(Camera.url+"/ver100/shooting/settings/afoperation")
 
             class __single__:
                 def __init__(self,url):
                     self.url=url
                 def get(self):
-                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url)
                 def put(self,value):
-                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":value}).json()
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":value})
                 def change(self,n):
                     """ 
                     increase/decrease value by n in ability
                     """
-                    r=self.get()
+                    r=self.get().json()
                     return self.put(r["ability"][(r["ability"].index(r["value"])+n)%len(r["ability"])])
             class __single_step__:
                 def __init__(self,url):
                     self.url=url
                 def get(self):
-                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url)
                 def put(self,value):
-                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":value}).json()
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":value})
                 def change(self,n):
                     """ 
                     increase/decrease value by n*step in ability 
                     """
-                    r=self.get()
+                    r=self.get().json()
                     step=r["ability"]["step"]
                     min_=r["ability"]["min"]
                     max_=r["ability"]["max"]
@@ -225,15 +225,15 @@ class Camera:
                     self.var1=var1
                     self.var2=var2
                 def get(self):
-                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url)
                 def put(self,var1,var2):
-                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":{self.var1:var1,self.var2:var2}}).json()
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":{self.var1:var1,self.var2:var2}})
                 def change(self,n,m):
                     """ 
                     increase/decrease value by n,m in ability (the two are changed)
                     """
                     
-                    r=self.get()
+                    r=self.get().json()
                     var1=r["ability"][self.var1][(r["ability"][self.var1].index(r["value"][self.var1])+n)%len(r["ability"][self.var1])]
                     var2=r["ability"][self.var2][(r["ability"][self.var2].index(r["value"][self.var2])+m)%len(r["ability"][self.var2])]
                     return self.put(var1,var2)
@@ -243,14 +243,14 @@ class Camera:
                     self.var1=var1
                     self.var2=var2
                 def get(self):
-                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url)
                 def put(self,var1,var2):
-                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":{self.var1:var1,self.var2:var2}}).json()
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":{self.var1:var1,self.var2:var2}})
                 def change(self,n,m):
                     """ 
                     increase/decrease value by n*step,m*step in ability (the two are changed)
                     """
-                    r=self.get()
+                    r=self.get().json()
                     step1=r["ability"][self.var1]["step"]
                     step2=r["ability"][self.var2]["step"]
 
@@ -276,16 +276,16 @@ class Camera:
                     self.var5=var5
                     self.var6=var6
                 def get(self):
-                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url)
                 def put(self,var1,var2,var3,var4,var5,var6):
-                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":{self.var1:var1,self.var2:var2,self.var3:var3,self.var4:var4,self.var5:var5,self.var6:var6}}).json()
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json={"value":{self.var1:var1,self.var2:var2,self.var3:var3,self.var4:var4,self.var5:var5,self.var6:var6}})
                 def delete(self):
-                    return requests.delete(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                    return requests.delete(Camera.url+"/ver100/shooting/settings"+self.url)
                 def change(self,n,m,o,p,q,a):
                     """ 
                     increase/decrease value by n*step,m*step in ability (the two are changed)
                     """
-                    r=self.get()
+                    r=self.get().json()
                     step1=r["ability"][self.var1]["step"]
                     step2=r["ability"][self.var2]["step"]
                     step3=r["ability"][self.var3]["step"]
@@ -326,17 +326,17 @@ class Camera:
                     self.var5=var5
                     self.var6=var6
                 def get(self):
-                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                        return requests.get(Camera.url+"/ver100/shooting/settings"+self.url)
                 def put(self,basepicturestyle,var1,var2,var3,var4,var5,var6):
                     j={"value":{"basepicturestyle":basepicturestyle,self.var1:var1,self.var2:var2,self.var3:var3,self.var4:var4,self.var5:var5,self.var6:var6}}
-                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json=j).json()
+                    return requests.put(Camera.url+"/ver100/shooting/settings"+self.url,json=j)
                 def delete(self):
-                    return requests.delete(Camera.url+"/ver100/shooting/settings"+self.url).json()
+                    return requests.delete(Camera.url+"/ver100/shooting/settings"+self.url)
                 def change(self,n,m,o,p,q,a):
                     """ 
                     increase/decrease value by n*step,m*step in ability (the two are changed)
                     """
-                    r=self.get()
+                    r=self.get().json()
                     step1=r["ability"][self.var1]["step"]
                     step2=r["ability"][self.var2]["step"]
                     step3=r["ability"][self.var3]["step"]
@@ -404,25 +404,18 @@ class Camera:
         class information:
             class recordable:
                 def get():
-                    return requests.get(Camera.url+"/ver100/shooting/information/recordable").json()
+                    return requests.get(Camera.url+"/ver100/shooting/information/recordable")
 
-
-
-
-
-
-        
-            
             
 
         class liveview:
             def get():
                 return {"ability":{"liveviewsize":["off","small","medium"],"cameradisplay":["on","off","keep"]}}
             def post(liveviewsize,cameradisplay):
-                return requests.post(Camera.url+"/ver100/shooting/liveview",json={"liveviewsize":liveviewsize,"cameradisplay":cameradisplay}).json()
+                return requests.post(Camera.url+"/ver100/shooting/liveview",json={"liveviewsize":liveviewsize,"cameradisplay":cameradisplay})
             class flip:
                 def get():
-                    return requests.get(Camera.url+"/ver100/shooting/liveview/flip").content
+                    return requests.get(Camera.url+"/ver100/shooting/liveview/flip")
                 def save(path="ouput.jfif"):
                     "same as get method but save the image as path"
                     with open(path,"wb") as f:
@@ -441,19 +434,19 @@ class Camera:
                         return r
             class scroll:
                 def get():
-                    return requests.get(Camera.url+"/ver100/shooting/liveview/scroll").content
+                    return requests.get(Camera.url+"/ver100/shooting/liveview/scroll")
                 def delete():
-                    return requests.delete(Camera.url+"/ver100/shooting/liveview/scroll").content
+                    return requests.delete(Camera.url+"/ver100/shooting/liveview/scroll")
                     
                     
             class rtp:
                 def get():
-                    return requests.get(Camera.url+"/ver100/shooting/liveview/rtp").json()
+                    return requests.get(Camera.url+"/ver100/shooting/liveview/rtp")
                 def post(ip,action):
-                    return requests.post(Camera.url+"/ver100/shooting/liveview/rtp",json={"ipaddress":ip,"action":action}).json()
+                    return requests.post(Camera.url+"/ver100/shooting/liveview/rtp",json={"ipaddress":ip,"action":action})
             class rtpsessiondesc:
                 def get():
-                    return requests.get(Camera.url+"/ver100/shooting/liveview/rtpsessiondesc").text
+                    return requests.get(Camera.url+"/ver100/shooting/liveview/rtpsessiondesc")
                 
 
                 
