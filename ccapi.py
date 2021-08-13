@@ -416,28 +416,19 @@ class Camera:
             class flip:
                 def get():
                     return requests.get(Camera.url+"/ver100/shooting/liveview/flip")
-                def save(path="ouput.jfif"):
-                    "same as get method but save the image as path"
-                    with open(path,"wb") as f:
-                        f.write(requests.get(Camera.url+"/ver100/shooting/liveview/flip").content)
             class flipdetail:
                 def get(kind="info"):
-                    r=requests.get(Camera.url+"/ver100/shooting/liveview/flipdetail/?kind="+kind)
-                    if kind=="info":
-                        return int.from_bytes(r.content[3:7],"big"),json.loads(r.text[7:len(r.text)-2])
-                    elif kind=="image":
-                        return int.from_bytes(r.content[3:7],"big"),r.content[7:-2]
-                    elif kind=="both":
-                        i=r.content.index(b'\xff\x00\x00')
-                        return [(int.from_bytes(r.content[3:7],"big"),json.loads(r.text[7:i-2])),(int.from_bytes(r.content[i+3:i+7],"big"),r.content[i+7:-2])]
-                    else:
-                        return r
+                    return requests.get(Camera.url+"/ver100/shooting/liveview/flipdetail/?kind="+kind)
             class scroll:
                 def get():
-                    return requests.get(Camera.url+"/ver100/shooting/liveview/scroll")
+                    return requests.get(Camera.url+"/ver100/shooting/liveview/scroll",stream=True)
                 def delete():
-                    return requests.delete(Camera.url+"/ver100/shooting/liveview/scroll")
-                    
+                    return requests.delete(Camera.url+"/ver100/shooting/liveview/scroll",stream=True)
+            class scrolldetail:
+                def get(kind):
+                    return requests.get(Camera.url+"/ver100/shooting/liveview/scrolldetail?kind="+kind,stream=True)
+                def delete():
+                    return requests.delete(Camera.url+"/ver100/shooting/liveview/scrolldetail")
                     
             class rtp:
                 def get():
@@ -447,12 +438,46 @@ class Camera:
             class rtpsessiondesc:
                 def get():
                     return requests.get(Camera.url+"/ver100/shooting/liveview/rtpsessiondesc")
-                
+            class angleinformation:
+                def get():
+                    return {"ability":{"action":["start","stop"]}}
+                def post(action):
+                    return requests.post(Camera.url+"/ver100/shooting/liveview/angleinformation",json={"action":action})
+            class afframeposition:
+                def put(positionx,positiony):
+                    requests.put(Camera.url+"/ver100/shooting/liveview/afframeposition",json={"positionx":positionx,"positiony":positiony})
+            
+    class event:
+        class polling:
+            def get(continue_):
+                return requests.get(Camera.url+"/ver100/event/polling?continue="+continue_)
+            def delete():
+                return requests.delete(Camera.url+"/ver100/event/polling")
+        class monitoring:
+            def get(continue_):
+                return requests.get(Camera.url+"/ver100/event/monitoring?continue="+continue_)
+            def delete():
+                return requests.delete(Camera.url+"/ver100/event/monitoring")
 
-                
-                
-                
-ip="192.168.1.9"
-port=8080
-c=Camera(ip,port) 
+
+class decode:
+    def __init__(self,data):
+        self.data=data
+        self.data_decoded=[]
+        while data!=b"":
+            i=int.from_bytes(data[3:7],"big")
+            self.data_decoded.append({"bytesize":i,"type":data[2],"data":data[7:7+i]})
+            data=data[9+i:]
+
+
+
+def save(bytes_str,path="output.jfif"):
+    with open(path,"wb") as f:
+        f.write(bytes_str)
+
+
+if __name__ == "__main__":              
+    ip="192.168.1.19"
+    port=8080
+    c=Camera(ip,port) 
         
