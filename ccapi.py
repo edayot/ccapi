@@ -2,7 +2,6 @@ import requests
 import json
 import datetime
 from email.utils import formatdate
-from PIL import Image
 from io import BytesIO
 
 
@@ -129,32 +128,11 @@ class Camera:
                     """
                     return requests.put(Camera.url+"/ver100/functions/wifisetting/set3",json=body)
     class contents:
-        def display(path):
-            r=Camera.contents.get_file(path)
-            img = Image.open(BytesIO(r.content))
-            img.show()
-        def get_directory(path):
-            '''
-            path is the path of a directory: "/sd/100CANON"
-            '''
-            return requests.get(Camera.url+"/ver100/contents"+path)
-        def get_file(path):
+        def get(path):
             '''
             path is the path of a file: "/sd/100CANON/IMG_0000.JPG"
             '''
             return requests.get(Camera.url+"/ver100/contents"+path)
-            
-        def get_chunked(path):
-            '''
-            path is the path of a directory : "/sd/100CANON"
-            '''
-            r=requests.get(Camera.url+"/ver100/contents"+path+"?kind=chunked")
-            j=json.loads("["+r.text.replace('{"url"',',{"url"')[1:]+"]")
-            result={"url":[]}
-            for page in j:
-                for url in page["url"]:
-                    result["url"].append(url)
-            return result
     class shooting:
         class control:
             class shutterbutton():
