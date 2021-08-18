@@ -455,7 +455,7 @@ def save(bytes_str,path="output.jfif"):
 
 
 if __name__ == "__main__":              
-    ip="192.168.1.19"
+    ip="192.168.1.9"
     port=8080
     c=Camera(ip,port) 
         

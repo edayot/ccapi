@@ -3,10 +3,11 @@ import ccapi
 import datetime
 import time
 import concurrent.futures
+import socket
 importlib.reload(ccapi)
 
 
-ip="192.168.1.19"
+ip="192.168.1.9"
 port=8080
 c=ccapi.Camera(ip,port)
 
@@ -48,3 +49,14 @@ def polling_battery():
     r1=c.shooting.settings.tv.get()
     r2=c.event.polling.get("off")
     return r1,r2
+
+
+def start_rtp():
+    c.shooting.liveview.post("medium",'off')
+    time.sleep(0.25)
+    r=c.shooting.liveview.rtpsessiondesc.get()
+    c.shooting.liveview.rtp.post(socket.gethostbyname(socket.gethostname()),"start")
+    return r
+
+def stop_rtp():
+    c.shooting.liveview.rtp.post(socket.gethostbyname(socket.gethostname()),"stop")
