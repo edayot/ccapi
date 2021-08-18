@@ -52,11 +52,13 @@ def polling_battery():
 
 
 def start_rtp():
-    c.shooting.liveview.post("medium",'off')
+    c.shooting.liveview.post("small","on")
     time.sleep(0.25)
     r=c.shooting.liveview.rtpsessiondesc.get()
+    with open("sdp.sdp","w") as f: #Can be open with VLC
+        f.write(r.text)
     c.shooting.liveview.rtp.post(socket.gethostbyname(socket.gethostname()),"start")
-    return r
+    print(r.text)
 
 def stop_rtp():
     c.shooting.liveview.rtp.post(socket.gethostbyname(socket.gethostname()),"stop")
