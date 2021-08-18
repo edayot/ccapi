@@ -1,9 +1,9 @@
 import importlib
 import ccapi
-import datetime
 import time
-import concurrent.futures
 import socket
+import requests
+from PIL import Image  
 importlib.reload(ccapi)
 
 
@@ -15,10 +15,25 @@ c=ccapi.Camera(ip,port)
 def take_liveview_picture():
     c.shooting.liveview.flip.save()
 
-def intervallometer(Camera,shots,interval,wait=False):
+def display_last_image(Camera):
+    r2=Camera.event.polling.get("off")
+    r=requests.get(r2.json()["addedcontents"][1])
+    ccapi.save(r.content,"temp/output.jpeg")
+    img=Image.open("temp/output.jpeg")
+    img.show()
+
+
+def intervallometer(Camera,shots,interval,wait=False,display=False):
     def take_picture():
         r=Camera.shooting.control.shutterbutton.post(af=False)
+        if display:
+            time.sleep(0.1)
+            display_last_image(Camera)
+            
+
         print("Picture "+str(i)+"/"+str(shots)+" : status_code="+str(r.status_code)+" current="+time.ctime(start+interval*i))
+        
+    print(c.devicestatus.battery.get())
     start=time.time()
     i=0
     if wait:
