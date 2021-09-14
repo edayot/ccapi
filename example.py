@@ -62,7 +62,6 @@ def chunk_get():
 
 
 
-
 def start_rtp():
     c.shooting.liveview.post("small","on")
     time.sleep(0.25)
