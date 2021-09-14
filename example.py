@@ -60,10 +60,7 @@ def chunk_get():
     c.shooting.liveview.post("off","off")
     return r
 
-def polling_battery():
-    r1=c.shooting.settings.tv.get()
-    r2=c.event.polling.get("off")
-    return r1,r2
+
 
 
 def start_rtp():
