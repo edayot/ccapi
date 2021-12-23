@@ -3,7 +3,8 @@ import ccapi
 import time
 import socket
 import requests
-from PIL import Image  
+from rich.progress import Progress
+
 importlib.reload(ccapi)
 
 
@@ -24,26 +25,29 @@ def display_last_image(Camera):
 
 
 def intervallometer(Camera,shots,interval,wait=False,display=False):
-    def take_picture():
-        r=Camera.shooting.control.shutterbutton.post(af=False)
-        if display:
-            time.sleep(0.1)
-            display_last_image(Camera)
-            
+    with Progress() as progress:
+        task = progress.add_task("[green]Progress...", total=shots)
+        def take_picture():
+            r=Camera.shooting.control.shutterbutton.post(af=False)
+            if display:
+                time.sleep(0.1)
+                #display_last_image(Camera)
+                
 
-        print("Picture "+str(i)+"/"+str(shots)+" : status_code="+str(r.status_code)+" current="+time.ctime(start+interval*i))
-        
-    print(c.devicestatus.battery.get())
-    start=time.time()
-    i=0
-    if wait:
-        i=1
-        take_picture()
-    while i<shots:
-        while time.time()<start+interval*i:
-            pass
-        i=i+1
-        take_picture()
+            print("Picture "+str(i)+"/"+str(shots)+" : status_code="+str(r.status_code)+" current="+time.ctime(start+interval*i))
+            
+        print(c.devicestatus.battery.get())
+        start=time.time()
+        i=0
+        if wait:
+            i=1
+            take_picture()
+        while i<shots:
+            while time.time()<start+interval*i:
+                pass
+            i=i+1
+            take_picture()
+            progress.update(task, advance=1)
 
 
 def chunk_get():
@@ -73,3 +77,23 @@ def start_rtp():
 
 def stop_rtp():
     c.shooting.liveview.rtp.post(socket.gethostbyname(socket.gethostname()),"stop")
+
+if __name__ == "__main__":
+    print("Do you want to launch intervallometer [y/n] : ")
+    if input()=="y":
+        print('Format "ip:port" nothing to default : ')
+        a=input()
+        if len(a)!=0:
+            try:
+                ip,port=a.split(":")
+                c=ccapi.Camera(ip,int(port))
+            except:
+                raise("Invalid format")
+        print("shots : ")
+        shots=int(input())
+        print("interval : ")
+        interval=int(input())
+        print("/nAre you sure this will take "+str(shots*interval/60)+" minutes [y/n] : ")
+        if input()=="y":
+            intervallometer(c,shots,interval)
+    print("Closing...--+")
